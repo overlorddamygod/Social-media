@@ -1,8 +1,9 @@
 const {User} = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
+var passwordHash = require('password-hash');
 const Promise = require('bluebird')
-const bcrypt = require('bcrypt')
+const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
 
 
 
@@ -12,13 +13,16 @@ function jwtSignUser (user) {
     expiresIn: ONE_WEEK
   })
 }
+function hashpass(pass) {
+  return bcrypt.hashSync(pass)
+}
 
 module.exports = {
   async register (req, res) {
     try {
       const user = await User.create({
         email:req.body.email,
-        password:req.body.password
+        password:hashpass(req.body.password)
       })
       const userJson = user.toJSON()
       res.send({
@@ -45,8 +49,8 @@ module.exports = {
           error: 'The login information was incorrect'
         })
       }
-
-      const isPasswordValid = await user.comparePassword(password)
+      // const isPasswordValid = await user.comparePassword(password)
+      const isPasswordValid = bcrypt.compareSync(password,user.password)
       if (!isPasswordValid) {
         return res.status(403).send({
           error: 'The login information was incorrect'
