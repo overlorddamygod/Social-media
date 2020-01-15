@@ -1,7 +1,6 @@
 const {User} = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
-var passwordHash = require('password-hash');
 const Promise = require('bluebird')
 const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
 
@@ -31,7 +30,7 @@ module.exports = {
       })
     } catch (err) {
       res.status(400).send({
-        error: 'Server Error'
+        error: 'ALready Registered'
       })
     }
   },

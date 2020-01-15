@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  port: process.env.PORT || 8080,
+  port: process.env.PORT || 3000,
   db: {
     database: process.env.DB_NAME || 'social-media',
     user: process.env.DB_USER || 'overlord',
@@ -9,7 +9,7 @@ module.exports = {
     options: {
       dialect: process.env.DIALECT || 'sqlite',
       host: process.env.HOST || 'localhost',
-      storage: './social-media.sqlite'
+      storage: path.resolve(__dirname, '../../social-media.sqlite')
     }
   },
   authentication: {

@@ -31,10 +31,3 @@ module.exports = (sequelize, DataTypes) => {
   }
   return User
 }
-// , {
-//   hooks: {
-//     beforeCreate: hashPassword,
-//     beforeUpdate: hashPassword,
-//     beforeSave: hashPassword
-//   }
-// }
