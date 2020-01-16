@@ -14,5 +14,10 @@ module.exports = {
   },
   authentication: {
     jwtSecret: process.env.JWT_SECRET || 'secret'
+  },
+  apilogin : {
+    userID:"e6eb38b1-237e-4559-bc4a-379bcb84f887",
+    secretID:"1cfb0de4-9945-4442-afef-b674204c0267"
   }
+
 }
