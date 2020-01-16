@@ -24,7 +24,6 @@ module.exports = {
   async addpost (req, res) {
     try {
       const posts = await Posts.create(req.body);
-      console.log(req.body)
       const postJson = posts.toJSON()
       res.send({
         posts:postJson,
