@@ -58,9 +58,9 @@ export default {
     post
   },
   mounted() {
-    this.getpost()
+    this.getpost1()
     this.interval = setInterval( ()=> {
-      this.getpost();
+      this.getpost1();
     }, 60000); 
   },
   data() {
@@ -84,13 +84,29 @@ export default {
         this.isLoading=false
         this.content=""
         this.posts=response.data.posts
-        this.posts=this.posts.reverse()
+        this.posts.sort(function(x, y){
+    return y.createdAt - x.createdAt;
+})
         this.text="Successfully Posted"
         this.snackbar=true
       } catch (error) {
         this.error = error.response.data.error
       }
       
+    },
+    async getpost1 () {
+      try {
+        let id=this.$store.state.auth.user.id
+        const response = await PostService.getp(id)
+        this.isLoading=false
+        this.content=""
+        this.posts=response.data.posts
+        this.posts.sort(function(x, y){
+    return y.createdAt - x.createdAt;
+})
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     },
     async post () {
       try {

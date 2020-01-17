@@ -1,5 +1,5 @@
 <template>
-<v-card
+<v-card 
     class="mx-auto pa-10 my-auto"
     outlined
   >
@@ -8,6 +8,9 @@
     >
     <v-alert type="success" v-if="$route.query.success">
       {{$route.query.success}}
+    </v-alert>
+    <v-alert type="error" v-if="error">
+      {{error}}
     </v-alert>
       <v-text-field
         v-model="email"
@@ -22,9 +25,19 @@
       ></v-text-field>
 
         <v-btn
+          v-if="loading"
           dark
           class="cyan"
-          @click="login">
+          @click="login"
+          loading>
+          Login
+        </v-btn>
+        <v-btn
+          v-else
+          dark
+          class="cyan"
+          @click="login"
+          >
           Login
         </v-btn>
         <Strong class="mx-10">Or</Strong>
@@ -47,12 +60,18 @@ export default {
     return {
       email: '',
       password: '',
-      error: null
+      error: null,
+      loading:false
     }
+  },
+  created(){
+    this.check()
   },
   methods: {
     async login () {
       try {
+        this.loading=true
+        await this.sleep(1000)
         const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
@@ -65,16 +84,27 @@ export default {
         })
       } catch (error) {
         this.error = error.response.data.error
+        this.loading=false
       }
       
+    },
+    check() {
+      if (this.$store.state.auth.isUserLoggedIn) {
+        this.$router.push({
+        name: 'dashboard'
+      })
+      }
     },
     retoreg() {
       this.$router.push({
         name: 'register'
       })
-    }
+    },
+    sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
   }
-}
+  },
+  }
 </script>
 
 <style scoped>

@@ -3,6 +3,9 @@
     class="mx-auto pa-10 my-auto"
     outlined
   >
+  <v-alert type="error" v-if="error">
+      {{error}}
+    </v-alert>
 <v-form
       ref="form"
     >
@@ -23,9 +26,18 @@
         required
         type="password"
       ></v-text-field>
-
+      <v-btn
+      v-if="loading"
+        dark
+        class="cyan"
+        @click="register"
+        loading
+      >
+        Register
+      </v-btn>
       <v-btn
         dark
+        v-else
         class="cyan"
         @click="register"
       >
@@ -53,12 +65,14 @@ export default {
       name:'',
       email: '',
       password: '',
-      error: null
+      error: null,
+      loading:false
     }
   },
   methods: {
     async register () {
       try {
+        this.loading=true
         const response = await AuthenticationService.register({
           name:this.name,
           email: this.email,
@@ -72,6 +86,7 @@ export default {
         )
       } catch (error) {
         this.error = error.response.data.error
+        this.loading=false
       }
     },
     retolog() {
