@@ -1,51 +1,32 @@
-<template>
-  <div id="app">
-    <v-app>
-    <v-card
-    class="mx-auto"
-    max-width="344"
-    outlined
-  >
-    <v-list-item three-line>
-      <v-list-item-content>
-        <div class="overline mb-4">OVERLINE</div>
-        <v-list-item-title class="headline mb-1">Headline 5</v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
-      </v-list-item-content>
-
-      <v-list-item-avatar
-        tile
-        size="80"
-        color="grey"
-      ></v-list-item-avatar>
-    </v-list-item>
-
-    <v-card-actions>
-      <v-btn text>Button</v-btn>
-      <v-btn text>Button</v-btn>
-    </v-card-actions>
-  </v-card>
-    <sidebar /></v-app>
+<template><div>
+  <v-app v-if="isUserLoggedIn">
+    <sidebar/>
+    <bar/> 
+    <v-content>
+    <router-view>
+    </router-view>
+    </v-content>
+  </v-app>
+  <v-app v-else>
+    <router-view>
+    </router-view>
+  </v-app>
   </div>
 </template>
 
 <script>
-import sidebar from './components/Sidebar'
+import sidebar from './components/Sidebar';
+import bar from './components/Bar';
+import {mapState} from 'vuex'
+
 export default {
-  name: 'app',
-  components: {
-    sidebar
+  name: 'App',
+  computed : {
+    ...mapState('auth',['isUserLoggedIn'])
   },
-  data () {
-      return {
-        items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ],
-      }
-  }
-}
+  components: {
+    sidebar,
+    bar
+  },
+};
 </script>
-<style>
-</style>

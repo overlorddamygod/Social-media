@@ -8,17 +8,17 @@ const config = require('./config/config')
 
 module.exports = (app) => {
   app.post('/register',
-  ApiKeyCheckPolicy.ApiKeyCheck,
+  // ApiKeyCheckPolicy.ApiKeyCheck,
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)
   app.post('/login',
-  ApiKeyCheckPolicy.ApiKeyCheck,
+  // ApiKeyCheckPolicy.ApiKeyCheck,
     AuthenticationController.login)
   app.get('/posts/',
-  ApiKeyCheckPolicy.ApiKeyCheck,
+  // ApiKeyCheckPolicy.ApiKeyCheck,
     PostsController.getpostsbyuser)
   app.post('/posts',
-  ApiKeyCheckPolicy.ApiKeyCheck,
+  // ApiKeyCheckPolicy.ApiKeyCheck,
     PostsController.addpost)
   app.post('/api_keygen',
   (req,res,next) => {
