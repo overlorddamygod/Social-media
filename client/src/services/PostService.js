@@ -6,5 +6,8 @@ export default {
   },
   getp (userId) {
     return Api().get(`posts?user_id=${userId}`)
+  },
+  allposts() {
+    return Api().get(`posts/all`)
   }
 }

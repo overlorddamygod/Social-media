@@ -44,9 +44,9 @@ export default {
         items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' ,route:{name: 'dashboard'}},
           { title: 'My Page', icon: 'mdi-image' ,route:{name: 'mypage'}},
-          { title: 'Chat', icon: 'mdi-help-box' ,route:{name: 'chat'}},
-          { title: 'Friends', icon: 'mdi-help-box' ,route:{name: 'friends'}},
-          { title: 'Settings', icon: 'mdi-help-box' ,route:{name: 'settings'}},
+          { title: 'Chat', icon: 'mdi-message' ,route:{name: 'chat'}},
+          { title: 'Friends', icon: 'mdi-account-multiple' ,route:{name: 'friends'}},
+          { title: 'Settings', icon: 'mdi-settings' ,route:{name: 'settings'}},
         ],
       }
   },

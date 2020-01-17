@@ -1,12 +1,15 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const PostsController = require('./controllers/PostsController')
 const ApiKeyController = require('./controllers/ApiKeyController')
+const UsersController = require('./controllers/UsersController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const ApiKeyCheckPolicy = require('./policies/ApiKeyCheckPolicy')
 const config = require('./config/config')
 
 
 module.exports = (app) => {
+  app.get('/user',
+  UsersController.getinfo),
   app.post('/register',
   // ApiKeyCheckPolicy.ApiKeyCheck,
     AuthenticationControllerPolicy.register,
@@ -16,7 +19,10 @@ module.exports = (app) => {
     AuthenticationController.login)
   app.get('/posts/',
   // ApiKeyCheckPolicy.ApiKeyCheck,
-    PostsController.getpostsbyuser)
+    PostsController.getpostsbyuser),
+    app.get('/posts/all',
+    // ApiKeyCheckPolicy.ApiKeyCheck,
+      PostsController.getallposts)
   app.post('/posts',
   // ApiKeyCheckPolicy.ApiKeyCheck,
     PostsController.addpost)

@@ -3,31 +3,20 @@
     <v-app-bar
       app
       color="white"
+      height="70px"
       elevate-on-scroll
       scroll-target="#scrolling-techniques-7"
     >
     <v-text-field
-        class="mt-7"
+        class="mt-7 mob-bar"
             v-model="model"
-            :label="label"
-            :hint="hint"
             placeholder="Search People..."
-            :shaped="shaped"
             outlined="true"
-            :rounded="rounded"
-            :solo="solo"
-            :single-line="singleLine"
-            :filled="filled"
-            :clearable="clearable"
-            :persistent-hint="persistentHint"
-            :loading="loading"
             flat="true"
-            :counter="counterEn ? counter : false"
-            :dense="dense"
             append-icon="mdi-magnify"
           ></v-text-field>
 
-    
+      <div class="hide">
       <v-btn icon class="ml-4">
         <v-icon>mdi-bell</v-icon>
       </v-btn>
@@ -37,7 +26,7 @@
                 >
                   <img
                     alt="Avatar"
-                    src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
+                    src="https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"
                   >
                 
                 </v-avatar>
@@ -69,7 +58,7 @@
             </v-list>
             
           </v-menu>
-
+      </div>
     
     </v-app-bar>
     
@@ -103,6 +92,18 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style scoped lang="scss">
+.hide {
+  display: none;
+}
+@media screen and (min-width: 768px) {
+  .hide {
+    display: block;
+  }
+}
+@media screen and (max-width: 768px) {
+  .mob-bar {
+    padding-top:0.2rem;
+  }
+}
 </style>
