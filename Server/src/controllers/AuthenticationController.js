@@ -20,9 +20,11 @@ module.exports = {
   async register (req, res) {
     try {
       const user = await User.create({
+        name:req.body.name,
         email:req.body.email,
         password:hashpass(req.body.password)
       })
+      console.log(req.body)
       const userJson = user.toJSON()
       res.send({
         user: userJson,
@@ -57,6 +59,7 @@ module.exports = {
       }
 
       const userJson = user.toJSON()
+      console.log("LOl")
       res.send({
         user: userJson,
         token: jwtSignUser(userJson)

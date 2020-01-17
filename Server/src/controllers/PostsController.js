@@ -6,7 +6,7 @@ module.exports = {
         let postJson = []
         const posts = await Posts.findAll({
         where: {
-          userId:req.body.userId
+          userId:req.query.user_id
             }
         });
         posts.forEach(element => {
