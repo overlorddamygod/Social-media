@@ -33,6 +33,8 @@ export default {
     bar,
     botnav
   },
+  created() {
+  }
 };
 </script>
 
