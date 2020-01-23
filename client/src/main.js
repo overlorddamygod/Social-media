@@ -11,11 +11,18 @@ import vuetify from './plugins/vuetify';
 // import Panel from '@/components/globals/Panel'
 
 // Vue.component('panel', Panel)
-
+import VueSocketIOExt from 'vue-socket.io-extended';
+import io from 'socket.io-client';
+ 
+const socket = io('http://localhost:3000');
+ 
+Vue.use(VueSocketIOExt, socket);
 
 
 Vue.config.productionTip = false
 // Vue.use(Vuetify)
+// Vue.forceUpdate();
+
 sync(store, router)
 
 new Vue({

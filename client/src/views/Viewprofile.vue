@@ -12,11 +12,39 @@
       >
         Close
       </v-btn>
-    </v-snackbar><v-card
+    </v-snackbar
+    >
+    <v-card
+    class="mx-auto mt-4"
+    max-width="344"
+    outlined
+  >
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="headline mb-1">{{user.name}}</v-list-item-title>
+        <v-list-item-subtitle>Joined at {{user.createdAt}}</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-avatar
+        tile
+        size="80"
+        color="grey"
+      ></v-list-item-avatar>
+    </v-list-item>
+
+    <v-card-actions>
+      <v-btn text>Button</v-btn>
+      <v-btn text>Button</v-btn>
+    </v-card-actions>
+  </v-card>
+  <v-card
     class="mx-auto pa-2 mt-4"
     outlined
     width="500px"
   >
+
+
+
 
       <v-textarea
           label="Create Post"
@@ -52,6 +80,7 @@
 </template>
 <script>
 import PostService from '@/services/PostService'
+import UserService from '@/services/UserService'
 import post from '../components/Post'
 export default {
   components: {
@@ -59,13 +88,14 @@ export default {
   },
   mounted() {
     this.getpost1()
+    this.getu()
     this.interval = setInterval( ()=> {
       this.getpost1();
     }, 60000); 
   },
   data() {
     return {
-      user: this.$store.state.auth.user,
+      user: [],
       posts:[],
       error:{},
       interval:null,
@@ -79,7 +109,8 @@ export default {
   methods :{
     async getpost () {
       try {
-        const response = await PostService.getdash(this.$store.state.auth.user.id)
+        let id=this.$route.query.id
+        const response = await PostService.getp(id)
         this.isLoading=false
         this.content=""
         this.posts=response.data.posts
@@ -95,7 +126,8 @@ export default {
     },
     async getpost1 () {
       try {
-        const response = await PostService.getdash(this.$store.state.auth.user.id)
+        let id=this.$route.query.id
+        const response = await PostService.getp(id)
         this.isLoading=false
         this.content=""
         this.posts=response.data.posts
@@ -110,7 +142,7 @@ export default {
       try {
         this.isLoading=true
         await PostService.postpost({
-          UserId:this.user.id,
+          UserId:this.$route.query.id,
           photoUrl:'https://specials-images.forbesimg.com/imageserve/5c76b4b84bbe6f24ad99c370/416x416.jpg?background=000000&cropX1=0&cropX2=4000&cropY1=0&cropY2=4000',
           content: this.content
         })
@@ -124,6 +156,14 @@ export default {
   },
   sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+  },
+  async getu() {
+    try {
+      const response=await UserService.getusers(this.$route.query.id)
+      this.user=response.data.user
+    }catch (err) {
+      console.log("a")
+    }
   }
   },
   beforeDestroy: function(){

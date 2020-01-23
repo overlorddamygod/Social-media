@@ -18,8 +18,9 @@ export default {
         items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' ,route:{name: 'dashboard'}},
           { title: 'My Page', icon: 'mdi-image' ,route:{name: 'mypage'}},
-          { title: 'Chat', icon: 'mdi-message' ,route:{name: 'chat'}},
+          { title: 'Chat', icon: 'mdi-message' ,route:{name: 'induser'}},
           { title: 'Friends', icon: 'mdi-account-multiple' ,route:{name: 'friends'}},
+          { title: 'Find Friends', icon: 'mdi-account-multiple-plus' ,route:{name: 'findfriends'}},
           { title: 'Settings', icon: 'mdi-settings' ,route:{name: 'settings'}},
         ],
       }

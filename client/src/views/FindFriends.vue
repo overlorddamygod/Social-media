@@ -14,43 +14,43 @@
       </v-btn>
     </v-snackbar>
     <v-row class="px-10 mt-4">
-    <friendscard v-for="friend in friends" :key="friend.id" :friend="friend" @reloading="reload" class="mx-2 my-2"/>
+    <addfriend v-for="user in users" :key="user.id" :user="user" @reloading="reload" class="mx-2 my-2"/>
     </v-row>
   </div>
 </template>
 
 <script>
-import friendscard from '../components/Friendscard'
+import addfriend from '../components/Addfriend'
 import FriendsService from '@/services/FriendsService'
 
 export default {
   name: 'Friends',
   components: {
-    friendscard
+    addfriend
   },
   data() {
     return {
-      friends:[],
+      users:[],
       snackbar: false,
     text: '',
     timeout: 2000,
     }
   },
   mounted() {
-    this.getallfriends()
+    this.getallusers()
   },
   methods: {
-    async getallfriends () {
+    async getallusers () {
       try {
-        const response = await FriendsService.getfriends(this.$store.state.auth.user.id)
-        this.friends=response.data.friends
+        const response = await FriendsService.findfriends(this.$store.state.auth.user.id)
+        this.users=response.data.findfriends
       } catch (error) {
         // this.error = error.response.data.error
       }
   },
-  reload(friend) {
-    this.friends=this.friends.filter(fr=>fr.id != friend.id)
-    this.text=friend.friendname+" removed from friends list."
+  reload(user) {
+    this.users=this.users.filter(fr=>fr.id != user.id)
+    this.text=user.name+" added to the friends list."
     this.snackbar=true
     // this.getallfriends()
   }
