@@ -7,6 +7,7 @@ import Friends from '../views/Friends.vue'
 import Box from '../views/Box.vue'
 import FindFriends from '../views/FindFriends.vue'
 import Mypage from '../views/Mypage.vue'
+import Viewprofile from '../views/Viewprofile.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
 
@@ -62,6 +63,11 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Viewprofile
   },
   // {
   //   path: '/dashboard',

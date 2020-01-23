@@ -20,7 +20,7 @@
 
     <v-card-actions>
       <v-btn text @click="addfriend">Add Friend</v-btn>
-      <v-btn text>View Profile</v-btn>
+      <v-btn text @click="viewprofile">View Profile</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -54,6 +54,9 @@ export default {
       this.$emit('reloading',this.userin)
 
       
+    },
+    viewprofile() {
+      this.$router.push({ name: 'profile',query: { id: this.userin.id } })
     }
   }
 };

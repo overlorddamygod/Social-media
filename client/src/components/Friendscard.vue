@@ -20,7 +20,7 @@
 
     <v-card-actions >
       <v-btn text @click="removefriend">Remove Friend</v-btn>
-      <v-btn text>View Profile</v-btn>
+      <v-btn text @click="viewprofile">View Profile</v-btn>
     </v-card-actions>
     <v-snackbar
       v-model="snackbar"
@@ -58,18 +58,15 @@ export default {
   methods: {
     async removefriend() {
       try {
-        
         FriendsService.removefriend(this.friendin.friendid)
         this.$emit('reloading',this.friend)
-
-
-        
-
-        
       }
       catch(err) {
         console.log(err)
       }
+    },
+    viewprofile() {
+      this.$router.push({ name: 'profile',query: { id: this.friendin.friendid } })
     }
   }
 };
