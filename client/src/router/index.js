@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Settings from '../views/Settings.vue'
 import Chat from '../views/Chat.vue'
 import Friends from '../views/Friends.vue'
+import FindFriends from '../views/FindFriends.vue'
 import Mypage from '../views/Mypage.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
@@ -30,6 +31,11 @@ const routes = [
     path: '/friends',
     name: 'friends',
     component: Friends
+  },
+  {
+    path: '/findfriends',
+    name: 'findfriends',
+    component: FindFriends
   },
   {
     path: '/register',

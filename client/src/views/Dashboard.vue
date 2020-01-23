@@ -79,7 +79,7 @@ export default {
   methods :{
     async getpost () {
       try {
-        const response = await PostService.allposts()
+        const response = await PostService.getdash(this.$store.state.auth.user.id)
         this.isLoading=false
         this.content=""
         this.posts=response.data.posts
@@ -95,7 +95,7 @@ export default {
     },
     async getpost1 () {
       try {
-        const response = await PostService.allposts()
+        const response = await PostService.getdash(this.$store.state.auth.user.id)
         this.isLoading=false
         this.content=""
         this.posts=response.data.posts
@@ -108,7 +108,6 @@ export default {
     },
     async post () {
       try {
-        console.log(this.user.id)
         this.isLoading=true
         await PostService.postpost({
           UserId:this.user.id,

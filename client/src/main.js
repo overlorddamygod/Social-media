@@ -21,6 +21,8 @@ Vue.use(VueSocketIOExt, socket);
 
 Vue.config.productionTip = false
 // Vue.use(Vuetify)
+// Vue.forceUpdate();
+
 sync(store, router)
 
 new Vue({

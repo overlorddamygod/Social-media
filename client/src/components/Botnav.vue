@@ -20,6 +20,7 @@ export default {
           { title: 'My Page', icon: 'mdi-image' ,route:{name: 'mypage'}},
           { title: 'Chat', icon: 'mdi-message' ,route:{name: 'chat'}},
           { title: 'Friends', icon: 'mdi-account-multiple' ,route:{name: 'friends'}},
+          { title: 'Find Friends', icon: 'mdi-account-multiple' ,route:{name: 'findfriends'}},
           { title: 'Settings', icon: 'mdi-settings' ,route:{name: 'settings'}},
         ],
       }
