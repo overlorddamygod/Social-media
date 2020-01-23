@@ -18,10 +18,23 @@
                   ></v-list-item-avatar>
     </v-list-item>
 
-    <v-card-actions>
+    <v-card-actions >
       <v-btn text @click="removefriend">Remove Friend</v-btn>
       <v-btn text>View Profile</v-btn>
     </v-card-actions>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+    >
+      {{ text }}
+      <v-btn
+        color="blue"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -36,7 +49,7 @@ export default {
   data: function() {
   var data = {
     friendin: this.friend,
-    a:''
+
     // other object attributes
   }
 
@@ -45,8 +58,14 @@ export default {
   methods: {
     async removefriend() {
       try {
-        await FriendsService.removefriend(this.friendin.friendid)
-        this.$emit('reloading')
+        
+        FriendsService.removefriend(this.friendin.friendid)
+        this.$emit('reloading',this.friend)
+
+
+        
+
+        
       }
       catch(err) {
         console.log(err)

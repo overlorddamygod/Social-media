@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Settings from '../views/Settings.vue'
 import Chat from '../views/Chat.vue'
 import Friends from '../views/Friends.vue'
+import Box from '../views/Box.vue'
 import FindFriends from '../views/FindFriends.vue'
 import Mypage from '../views/Mypage.vue'
 import Register from '../views/Register.vue'
@@ -25,7 +26,17 @@ const routes = [
   {
     path: '/chat',
     name: 'chat',
-    component: Chat
+    components: {
+      default:Chat,
+    },
+    children: [{
+      path: 'user',
+      name:'induser',
+      components: {
+        default: Chat,
+        helper: Box,
+      }
+    }]
   },
   {
     path: '/friends',

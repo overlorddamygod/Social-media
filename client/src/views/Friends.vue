@@ -1,5 +1,18 @@
 <template>
   <div class="about">
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+    >
+      {{ text }}
+      <v-btn
+        color="blue"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
     <v-row class="px-10 mt-4">
     <friendscard v-for="friend in friends" :key="friend.id" :friend="friend" @reloading="reload" class="mx-2 my-2"/>
     </v-row>
@@ -17,7 +30,10 @@ export default {
   },
   data() {
     return {
-      friends:[]
+      friends:[],
+      snackbar: false,
+    text: '',
+    timeout: 2000,
     }
   },
   mounted() {
@@ -32,8 +48,11 @@ export default {
         // this.error = error.response.data.error
       }
   },
-  reload() {
-    this.getallfriends()
+  reload(friend) {
+    this.friends=this.friends.filter(fr=>fr.id != friend.id)
+    this.text=friend.friendname+" removed from friends list."
+    this.snackbar=true
+    // this.getallfriends()
   }
   }
 };

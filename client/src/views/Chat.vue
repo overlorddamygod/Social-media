@@ -1,31 +1,30 @@
 <template>
   <div class="about">
     <v-row class="r">
-      <v-col cols="3"></v-col>
+      <v-col cols="3">
+        <v-card
+    class="ml-4 mb-3 px-3 chatname"
+    v-for="friend in friends"
+    :key="friend.id"
+    @click="go(friend.id)"
+  >
+        <v-list-item-title class="py-3">{{friend.friendname}}</v-list-item-title>
+  </v-card>
+
+      </v-col>
+        <v-divider
+      class="mx-2"
+      vertical
+    ></v-divider>
       <v-col class="chat">
-          <div class="chat-box" ref="msgContainer">
-            <ul>
-              <li v-for="message in messages" :key="message">{{message}}</li>
-            </ul>
-          </div>
-          <div class="chat-input">
-            <v-text-field
-        class="mt-3 mob-bar"
-            v-model="message"
-            placeholder="Send a message"
-            outlined="true"
-            flat="true"
-          ></v-text-field>
-          <v-btn
-          dark
-          class="mb-4 mx-4"
-          @click="sendmsg">
-          <v-icon>mdi-send</v-icon>
-        </v-btn>
-          
-          </div>
+        <router-view name="helper">
+    </router-view>
           
         </v-col>
+          <v-divider
+      class="mx-2"
+      vertical
+    ></v-divider>
     
     <v-col cols="3">
 
@@ -36,6 +35,8 @@
 
 <script>
 import {mapState} from 'vuex'
+import FriendsService from '@/services/FriendsService'
+
 export default {
   computed: {
     ...mapState('auth',['user'])
@@ -43,12 +44,27 @@ export default {
   name: 'bar',
   data: () => ({
     messages:[],
-    message:''
-    }),
+    message:'',
+    friends:[]
+  }),
+  mounted() {
+    this.getallfriends()
+  },
   methods: {
+    async getallfriends () {
+      try {
+        const response = await FriendsService.getfriends(this.$store.state.auth.user.id)
+        this.friends=response.data.friends
+      } catch (error) {
+        // this.error = error.response.data.error
+      }
+  },
     sendmsg() {
       this.$socket.client.emit('sendmessage', this.message);
       this.message=""
+    },
+    go(id) {
+      this.$router.push({ name: 'induser',query: { id: id } })
     }
   },  
   sockets: {
@@ -69,6 +85,12 @@ export default {
 * {
   padding:0;
   margin:0;
+}
+.chatname {
+  cursor: pointer;
+}
+.chatname:hover{
+  background-color:rgba(0, 0, 0,0.1);
 }
 .chat {
   display: grid;

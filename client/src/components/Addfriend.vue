@@ -51,6 +51,8 @@ export default {
         }
         // console.log(a)
       await FriendsService.addfriend(friend)
+      this.$emit('reloading',this.userin)
+
       
     }
   }
