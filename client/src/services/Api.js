@@ -3,7 +3,11 @@ import axios from 'axios'
 
 export default () => {
   return axios.create({
+<<<<<<< HEAD
     baseURL: `http://localhost:3000`
+=======
+    baseURL: `https://young-temple-53403.herokuapp.com/`
+>>>>>>> test
     // headers: {
     //   Authorization: `Bearer ${store.state.auth.token}`
     // },

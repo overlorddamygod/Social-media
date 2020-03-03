@@ -5,13 +5,13 @@
     <botnav class="botnav"/>
     <v-content>
       
-    <router-view>
+    <router-view class="view">
     </router-view>
     </v-content>
   </v-app>
   <v-app v-else>
     
-    <router-view>
+    <router-view class="view">
     </router-view>
   </v-app>
   </div>
@@ -34,6 +34,19 @@ export default {
     botnav
   },
   created() {
+    // this.$socket.client.emit('chat-connection', {
+    //       user: this.$store.state.auth.user
+    // });
+  },
+  sockets: {
+     sendmessage(message) {
+          this.messages.push(message);
+            var messageBox = this.$refs.msgContainer;
+            messageBox.scrollTop = messageBox.scrollHeight;
+      },
+    connect() {
+        // this.messages=['b']
+      }
   }
 };
 </script>
@@ -46,6 +59,10 @@ export default {
 @media only screen and (max-width:768px) {
   .botnav {
     display: flex;
+  }
+  .view {
+    /* max-height:90vh; */
+    /* padding-bottom:10rem; */
   }
 }
 </style>
