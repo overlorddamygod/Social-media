@@ -6,7 +6,7 @@
     class="ml-4 mb-3 px-3 chatname"
     v-for="friend in friends"
     :key="friend.id"
-    @click="go(friend.id)"
+    @click="go(friend)"
   >
         <v-list-item-title class="py-3">{{friend.friendname}}</v-list-item-title>
   </v-card>
@@ -17,7 +17,7 @@
       vertical
     ></v-divider>
       <v-col class="chat">
-        <router-view name="helper">
+        <router-view name="helper" :dat="dat" :messages='[]'>
     </router-view>
           
         </v-col>
@@ -31,6 +31,7 @@
     </v-col>
           </v-row>
   </div>
+
 </template>
 
 <script>
@@ -45,10 +46,14 @@ export default {
   data: () => ({
     messages:[],
     message:'',
-    friends:[]
+    friends:[],
+    dat:''
   }),
   mounted() {
     this.getallfriends()
+    this.$socket.client.emit('chat-connection', {
+          user: this.$store.state.auth.user
+    });
   },
   methods: {
     async getallfriends () {
@@ -59,23 +64,20 @@ export default {
         // this.error = error.response.data.error
       }
   },
-    sendmsg() {
-      this.$socket.client.emit('sendmessage', this.message);
-      this.message=""
-    },
-    go(id) {
-      this.$router.push({ name: 'induser',query: { id: id } })
+    go(friend) {
+      this.$router.push({ name: 'induser',query: { id: friend.friendid } })
+      this.dat=friend
     }
   },  
   sockets: {
-     sendmessage(message) {
-          this.messages.push(message);
-            var messageBox = this.$refs.msgContainer;
-            messageBox.scrollTop = messageBox.scrollHeight;
-      },
-      connect() {
-        // this.messages=['b']
-      }
+    //  sendmessage(message) {
+    //       this.messages.push(message);
+    //         var messageBox = this.$refs.msgContainer;
+    //         messageBox.scrollTop = messageBox.scrollHeight;
+    //   },
+    //   connect() {
+    //     // this.messages=['b']
+    //   }
   }
 }
 </script>

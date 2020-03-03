@@ -2,27 +2,106 @@
 <div>
     <div class="chat-box" ref="msgContainer">
             <ul>
-              <li v-for="message in messages" :key="message">{{message}}</li>
+            <!-- {{messages}} -->
+            <div v-for="message in messages" :key="message" class="box" v-bind:class="{ right: message.sender===$store.state.auth.user.id }">
+              <li v-bind:class="{ right: message.sender==='' }">{{message.message}}</li>
+            </div>
             </ul>
           </div>
+          <!-- {{messages}} -->
           <div class="chat-input">
+
             <v-text-field
         class="mt-3 mob-bar"
             v-model="message"
             placeholder="Send a message"
             outlined="true"
             flat="true"
+                      @keypress.enter.prevent="sendmsg"
+
           ></v-text-field>
           <v-btn
           dark
           class="mb-4 mx-4"
-          @click="sendmsg">
+          @click="sendmsg"
+          >
           <v-icon>mdi-send</v-icon>
-        </v-btn>
-          
+                  </v-btn>
+                      <!-- {{getMessages(this.dat.id)}} -->
           </div>
           </div>
 </template>
+
+<script>
+import FriendsService from '@/services/FriendsService'
+
+export default {
+  data:()=> ({
+    // messages:[],
+    message:''
+  }),
+  props:
+  [
+    'messages',
+    'dat'
+  ],
+  mounted(){
+    // this.$socket.client.emit('chat-connection', );
+  },
+  watch:{
+    dat: function() {
+      this.getMessages(this.dat.id)
+    }
+  },
+ methods: {
+      sendmsg(){
+      this.$socket.client.emit('sendmessage', 
+      {
+      sender:this.$store.state.auth.user.id,
+      receiver:this.dat.friendid,
+      friendid:this.dat.id,
+      message:this.message
+    });
+    this.messages=[...this.messages,{
+      sender:this.$store.state.auth.user.id,
+      receiver:this.dat.friendid,
+      friendid:this.dat.id,
+      message:this.message
+    }]
+    this.message=""
+    this.$nextTick(function() {
+        var container = this.$refs.msgContainer;
+        container.scrollTop = container.scrollHeight + 120;
+    });
+    
+    },
+    async getMessages(friendid) {
+      try {
+        const response = await FriendsService.getMessages(friendid)
+        this.messages = response.data
+        this.$nextTick(function() {
+        var container = this.$refs.msgContainer;
+        container.scrollTop = container.scrollHeight + 120;
+        });
+      } catch (error) {
+        // this.error = error.response.data.error
+      }
+    }
+  },
+  sockets: {
+    message(data) {
+      console.log(data);
+      if (data.sender===this.$route.query.id){
+      this.messages=[...this.messages,data]
+      this.$nextTick(function() {
+        var container = this.$refs.msgContainer;
+        container.scrollTop = container.scrollHeight + 120;
+      });
+      }
+    }
+  }
+  } 
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
@@ -61,5 +140,29 @@
 .chat-input .send{
   cursor:pointer;
 }
+
+.box {
+  display:flex;
+  // position:relative;
+  // margin:0;
+  // padding:0;
+}
+.right {
+  justify-content:flex-end;
+}
+li {
+  display:flex;
+  padding:0.5rem;
+  width:inherit;
+  margin:2px 0;
+  border-radius:4px;
+  background:#53C2D8;
+  // position:absolute;
+  
+  // overflow: auto;
+
+  // justify-content:flex-end;
+}
+
 </style>
 
