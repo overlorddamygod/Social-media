@@ -172,6 +172,9 @@ module.exports = {
     try {
       let messagesJson = []
       const messages = await Messages.findAll({
+        order: [
+          ['createdAt']
+        ],
         where: {
           FriendId: req.query.friend_id
         }

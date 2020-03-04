@@ -2,6 +2,7 @@
 <v-card
     class="mx-auto pa-10 my-auto"
     outlined
+    @keypress.enter.prevent="register"
   >
   <v-alert type="error" v-if="error">
       {{error}}
@@ -31,6 +32,7 @@
         dark
         class="cyan"
         @click="register"
+        
         loading
       >
         Register
@@ -39,6 +41,7 @@
         dark
         v-else
         class="cyan"
+        
         @click="register"
       >
         Register

@@ -7,8 +7,10 @@
               <li v-bind:class="{ right: message.sender==='' }">{{message.message}}</li>
             </div>
             </ul>
+  
           </div>
           <!-- {{messages}} -->
+
           <div class="chat-input">
 
             <v-text-field
@@ -19,12 +21,25 @@
             flat="true"
                       @keypress.enter.prevent="sendmsg"
 
-          ></v-text-field>
+          >
+           </v-text-field>
+          <VEmojiPicker class="emojiPicker" v-if="showEmojiPicker" @select="selectEmoji" />
+          <v-btn
+          
+          class="mb-4 mx-1 emoButton"
+          @click="showEmojiPicker=!showEmojiPicker"
+          >
+          <v-icon>mdi-emoticon</v-icon></v-btn>
+
+         
+          
           <v-btn
           dark
-          class="mb-4 mx-4"
+          class="mb-4 mx-1"
           @click="sendmsg"
           >
+
+          
           <v-icon>mdi-send</v-icon>
                   </v-btn>
                       <!-- {{getMessages(this.dat.id)}} -->
@@ -34,16 +49,22 @@
 
 <script>
 import FriendsService from '@/services/FriendsService'
+import VEmojiPicker from 'v-emoji-picker';
+
 
 export default {
   data:()=> ({
+    showEmojiPicker:false,
     // messages:[],
-    message:''
+    message:'',
   }),
+  components: {
+    VEmojiPicker
+  },
   props:
   [
     'messages',
-    'dat'
+    'dat',
   ],
   mounted(){
     // this.$socket.client.emit('chat-connection', );
@@ -54,7 +75,11 @@ export default {
     }
   },
  methods: {
-      sendmsg(){
+   selectEmoji(emoji) {     
+      this.message+=emoji.data
+    },
+    sendmsg(){
+      if (this.message != "") {
       this.$socket.client.emit('sendmessage', 
       {
       sender:this.$store.state.auth.user.id,
@@ -69,20 +94,20 @@ export default {
       message:this.message
     }]
     this.message=""
-    this.$nextTick(function() {
+    this.scrollToBottom();
+      }
+    },
+    scrollToBottom() {
+      this.$nextTick(function() {
         var container = this.$refs.msgContainer;
         container.scrollTop = container.scrollHeight + 120;
     });
-    
     },
     async getMessages(friendid) {
       try {
         const response = await FriendsService.getMessages(friendid)
         this.messages = response.data
-        this.$nextTick(function() {
-        var container = this.$refs.msgContainer;
-        container.scrollTop = container.scrollHeight + 120;
-        });
+        this.scrollToBottom();
       } catch (error) {
         // this.error = error.response.data.error
       }
@@ -90,13 +115,10 @@ export default {
   },
   sockets: {
     message(data) {
-      console.log(data);
+      // console.log(data);
       if (data.sender===this.$route.query.id){
       this.messages=[...this.messages,data]
-      this.$nextTick(function() {
-        var container = this.$refs.msgContainer;
-        container.scrollTop = container.scrollHeight + 120;
-      });
+      this.scrollToBottom();
       }
     }
   }
@@ -164,5 +186,11 @@ li {
   // justify-content:flex-end;
 }
 
+.emojiPicker {
+  position:absolute;
+  // height:30vh;
+  transform:translate(38%,-60%);
+  z-index:10;
+}
 </style>
 
