@@ -2,6 +2,8 @@
 <v-card 
     class="mx-auto pa-10 my-auto"
     outlined
+              @keypress.enter.prevent="login"
+
   >
 <v-form
       ref="form"

@@ -2,6 +2,7 @@ const app = require('express')()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const dotenv = require('dotenv')
 const {
   Messages
 } = require('./models')
@@ -16,11 +17,11 @@ const {
   getallusers
 } = require('./socket-helpers/users')
 // app.use(morgan('combined'))
+dotenv.config('./env')
 app.use(bodyParser.json())
 app.use(cors())
 
 require('./routes')(app)
-
 let users = []
 
 io.on('connection', (socket) => {
