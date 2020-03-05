@@ -1,48 +1,21 @@
 <template>
-  <div class="about">
-    <v-row class="r">
-      <v-col cols="3">
-        <v-card
-    class="ml-4 mb-3 px-3 chatname"
-    v-for="friend in friends"
-    :key="friend.id"
-    @click="go(friend)"
-  >
-        <v-list-item-title class="py-3">{{friend.friendname}}</v-list-item-title>
-  </v-card>
-
-      </v-col>
-        <v-divider
-      class="mx-2"
-      vertical
-    ></v-divider>
-      <v-col class="chat">
-        <router-view name="helper" :dat="dat" :messages='[]'>
-    </router-view>
-          
-        </v-col>
-          <v-divider
-      class="mx-2"
-      vertical
-    ></v-divider>
-    
-    <v-col cols="3">
-
-    </v-col>
-          </v-row>
-  </div>
-
+  <Chatbox :friends="friends"></Chatbox>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 import FriendsService from '@/services/FriendsService'
+import Chatbox from '@/components/Chatbox.vue'
+// import Chatname from '@/components/Chatname.vue'
 
 export default {
   computed: {
     ...mapState('auth',['user'])
   },
   name: 'bar',
+  components : {
+    Chatbox,
+  },
   data: () => ({
     messages:[],
     message:'',
@@ -54,19 +27,25 @@ export default {
     this.$socket.client.emit('chat-connection', {
           user: this.$store.state.auth.user
     });
+    
+
+
   },
   methods: {
     async getallfriends () {
       try {
         const response = await FriendsService.getfriends(this.$store.state.auth.user.id)
         this.friends=response.data.friends
+        this.go();
       } catch (error) {
         // this.error = error.response.data.error
       }
   },
-    go(friend) {
-      this.$router.push({ name: 'induser',query: { id: friend.friendid } })
-      this.dat=friend
+    go() {        
+        console.log(this.friends);
+        
+        this.$router.push({query: { id: this.friends[0].id }})
+
     }
   },  
   sockets: {
@@ -84,40 +63,149 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-* {
-  padding:0;
-  margin:0;
+li {
+  list-style: none;
 }
-.chatname {
-  cursor: pointer;
-}
-.chatname:hover{
-  background-color:rgba(0, 0, 0,0.1);
-}
-.chat {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 0.1fr;
-  grid-template-areas: "." ".";
-}
-.r{
-  height:90vh;
-}
-.chat-box {
-  height:78vh;
-  overflow: scroll;
-}
-.about {
-  overflow:hidden;
-}
-.chat-input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+// * {
+//   padding:0;
+//   margin:0;
+// }
+// .chatname {
+//   cursor: pointer;
+// }
+// .chatname:hover{
+//   background-color:rgba(0, 0, 0,0.1);
+// }
+// .chat {
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   grid-template-rows: 1fr 0.1fr;
+//   grid-template-areas: "." ".";
+// }
+// .r{
+//   height:90vh;
+// }
+// .chat-box {
+//   height:78vh;
+//   overflow: scroll;
+// }
+// .about {
+//   overflow:hidden;
+// }
+// .chat-input {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
   
+// }
+// .chat-input .send{
+//   cursor:pointer;
+// }
+
+
+*, *:before, *:after {
+    box-sizing: border-box;
 }
-.chat-input .send{
-  cursor:pointer;
+
+:root {
+    --white: #fff;
+    --black: #000;
+    --bg: #f8f8f8;
+    --grey: #999;
+    --dark: #1a1a1a;
+    --light: #e6e6e6;
+    --wrapper: 1000px;
+    --blue: #00b0ff;
+}
+@mixin font-bold {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+}
+@mixin font {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+}
+@mixin placeholder {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+    &:-moz-placeholder {
+        @content;
+    }
+    &::-moz-placeholder {
+        @content;
+    }
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+// body {
+//     background-color: var(--bg);
+//     -webkit-font-smoothing: antialiased;
+//     -moz-osx-font-smoothing: grayscale;
+//     text-rendering: optimizeLegibility;
+//     @include font;
+//     background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/image.jpg');
+//     background-size: cover;
+//     background-repeat: none;
+// }
+.wrapper {
+    position: relative;
+    left: 0%;
+    width: 100%;
+    height: 800px;
+    // transform: translate(-50%, 0);
+}
+.container {
+    position: relative;
+    top: 0%;
+    left: 0%;
+    // width: 80%;
+    // height: 75%;
+    background-color: var(--white);
+    // transform: translate(-50%, -50%);
+    
+}
+@keyframes slideFromLeft {
+    0% {
+        margin-left: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+@-webkit-keyframes slideFromLeft {
+    0% {
+        margin-left: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+@keyframes slideFromRight {
+    0% {
+        margin-right: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
+}
+@-webkit-keyframes slideFromRight {
+    0% {
+        margin-right: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
 }
 </style>
 
