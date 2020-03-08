@@ -24,9 +24,9 @@ export default {
   }),
   mounted() {
     this.getallfriends()
-    this.$socket.client.emit('chat-connection', {
-          user: this.$store.state.auth.user
-    });
+    // this.$socket.client.emit('chat-connection', {
+    //       user: this.$store.state.auth.user
+    // });
     
 
 
@@ -63,44 +63,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-li {
-  list-style: none;
-}
-// * {
-//   padding:0;
-//   margin:0;
-// }
-// .chatname {
-//   cursor: pointer;
-// }
-// .chatname:hover{
-//   background-color:rgba(0, 0, 0,0.1);
-// }
-// .chat {
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   grid-template-rows: 1fr 0.1fr;
-//   grid-template-areas: "." ".";
-// }
-// .r{
-//   height:90vh;
-// }
-// .chat-box {
-//   height:78vh;
-//   overflow: scroll;
-// }
-// .about {
-//   overflow:hidden;
-// }
-// .chat-input {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-  
-// }
-// .chat-input .send{
-//   cursor:pointer;
-// }
 
 
 *, *:before, *:after {
@@ -140,33 +102,6 @@ li {
     }
 }
 
-// body {
-//     background-color: var(--bg);
-//     -webkit-font-smoothing: antialiased;
-//     -moz-osx-font-smoothing: grayscale;
-//     text-rendering: optimizeLegibility;
-//     @include font;
-//     background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/image.jpg');
-//     background-size: cover;
-//     background-repeat: none;
-// }
-.wrapper {
-    position: relative;
-    left: 0%;
-    width: 100%;
-    height: 800px;
-    // transform: translate(-50%, 0);
-}
-.container {
-    position: relative;
-    top: 0%;
-    left: 0%;
-    // width: 80%;
-    // height: 75%;
-    background-color: var(--white);
-    // transform: translate(-50%, -50%);
-    
-}
 @keyframes slideFromLeft {
     0% {
         margin-left: -200px;

@@ -21,9 +21,7 @@
             <div class="conversation-start">
                 <span>Today, 5:38 PM</span>
             </div>
-            
-            <!-- <Chatbubble msg="lol" :sentbyme="false"></Chatbubble> -->
-            <Chatbubble v-for="message in messages" :key="message.id" :msg="message.message" :sentbyme="Sentbyme(message.sender)"></Chatbubble>
+            <Chatbubble class="active-chat" v-for="message in messages" :key="message.id" :msg="message.message" :sentbyme="Sentbyme(message.sender)"></Chatbubble>
         </div>
         <Chatinput :dat="dat" @addMessage="addmessage"></Chatinput>
     </div>
@@ -83,19 +81,30 @@ export default {
         this.messages=[...this.messages,message]
         this.scrollToBottom()
     },
-    isActive(id) {
-        console.log(id);
-        
+    isActive(id) {        
         return id===this.$route.query.id
     }
   },
   sockets: {
     message(data) {
-      // console.log(data);
-      if (data.sender===this.$route.query.id){
-      this.messages=[...this.messages,data]
-      this.scrollToBottom();
-      }
+        // let c = true
+        // let i =0
+        // if (data.receiver ===this.$store.state.auth.user.id) {
+        //         var interval =setInterval(() => {
+        //             i+=1
+        //             if (c) document.title= `${data.sendername} sent a message`
+        //             if (!c) document.title= "Zumpy"
+        //             if (i===8) {
+        //                 clearInterval(interval  )
+        //             }
+        //             c=!c
+        //         },1000)
+        // }
+        if (data.sender === this.$route.query.id || data.sender ===this.$store.state.auth.user.id) {
+            
+            this.messages=[...this.messages,data]        
+            this.scrollToBottom();
+        }
     }
   }
 };
@@ -104,6 +113,7 @@ export default {
 <style lang="scss" scoped>
 .box {
     display:flex;
+    max-width:100%;
 }
 * {
          --white: #fff;
@@ -278,6 +288,7 @@ export default {
         
     //     }
     .people {
+            overflow: scroll;
             margin-left: -1px;
             border-right: 1px solid var(--light);
             border-left: 1px solid var(--light);
@@ -350,5 +361,44 @@ export default {
             }
         }
     
-    
+    @keyframes slideFromLeft {
+    0% {
+        margin-left: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+@-webkit-keyframes slideFromLeft {
+    0% {
+        margin-left: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+@keyframes slideFromRight {
+    0% {
+        margin-right: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
+}
+@-webkit-keyframes slideFromRight {
+    0% {
+        margin-right: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
+}
 </style>

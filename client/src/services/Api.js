@@ -3,7 +3,7 @@ import axios from 'axios'
 // For production
 export default () => {
   return axios.create({
-    baseURL: process.env.URL || `https://young-temple-53403.herokuapp.com/`
+    baseURL: window.location.hostname==="localhost"? `http://localhost:3000/`:`https://young-temple-53403.herokuapp.com/`
   })
 }
 // For development

@@ -16,7 +16,7 @@ import vuetify from './plugins/vuetify';
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
-const socket = io('https://young-temple-53403.herokuapp.com/');
+const socket = io(window.location.hostname==="localhost"? `http://localhost:3000/`:`https://young-temple-53403.herokuapp.com/`);
 // const socket = io('http://localhost:3000/');
 
 Vue.use(VueSocketIOExt, socket);

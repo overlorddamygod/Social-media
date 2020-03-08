@@ -32,14 +32,13 @@ export default {
     },
     sendmsg(){
       if (this.message != "") {
-
-        
         this.$socket.client.emit('sendmessage', 
         {
         sender:this.$store.state.auth.user.id,
         receiver:this.dat.friendid,
         friendid:this.dat.id,
-        message:this.message
+        message:this.message,
+        sendername:this.$store.state.auth.user.name
       });
       this.$emit('addMessage', {
         sender:this.$store.state.auth.user.id,
@@ -66,6 +65,7 @@ export default {
     // --wrapper: 1000px;
     // --blue: #00b0ff;
     // }
+
     .emo {
         position:relative;
     }

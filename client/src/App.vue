@@ -34,19 +34,29 @@ export default {
     botnav
   },
   created() {
-    // this.$socket.client.emit('chat-connection', {
-    //       user: this.$store.state.auth.user
-    // });
+    },
+  mounted() {
+    
+    this.$socket.client.emit('chat-connection', {
+          user: this.$store.state.auth.user
+    });
   },
   sockets: {
-     sendmessage(message) {
-          this.messages.push(message);
-            var messageBox = this.$refs.msgContainer;
-            messageBox.scrollTop = messageBox.scrollHeight;
-      },
-    connect() {
-        // this.messages=['b']
-      }
+    message(data) {
+        let c = true
+        let i =0
+        if (data.receiver ===this.$store.state.auth.user.id) {
+                var interval =setInterval(() => {
+                    i+=1
+                    if (c) document.title= `${data.sendername} sent a message`
+                    if (!c) document.title= "Zumpy"
+                    if (i===8) {
+                        clearInterval(interval  )
+                    }
+                    c=!c
+                },1000)
+        }
+    }
   }
 };
 </script>

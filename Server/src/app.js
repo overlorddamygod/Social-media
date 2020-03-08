@@ -9,8 +9,9 @@ const {
 const {
   sequelize
 } = require('./models')
-const config = require('./config/config')
+app.use(cors())
 
+const config = require('./config/config')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const {
@@ -19,7 +20,7 @@ const {
 // app.use(morgan('combined'))
 dotenv.config('./env')
 app.use(bodyParser.json())
-app.use(cors())
+
 
 require('./routes')(app)
 let users = []
@@ -28,27 +29,30 @@ io.on('connection', (socket) => {
   console.log("connected", socket.id)
 
   socket.on('chat-connection', data => {
-    // console.log(data)
-    var duplicate = false
+    var duplicateUser = false
+    var duplicateSocket=false
     if (data.user != null) {
-
-
-
       users.forEach((user, i) => {
         if (user.id === data.user.id) {
-          users[i].socketid = socket.id
-          duplicate = true
+          users[i].socketids.forEach(u => {
+            if (socket.id === u) duplicateSocket = true;
+          })
+          if (!duplicateSocket) {
+            users[i].socketids.push(socket.id)
+          }
+          duplicateUser = true
         }
       })
-      if (!duplicate) {
-        data.user.socketid = socket.id
-        users.push(data.user)
+      if (!duplicateUser) {
+        data.user.socketids=[]
+        data.user.socketids.push(socket.id)
+        users.push(data.user)        
       }
     }
-
-    console.log(users);
+    // console.log(users);
 
   })
+
   socket.on('sendmessage', async (data) => {
     // console.log(data)
     if (data.sender != null && data.receiver != null) {
@@ -59,24 +63,45 @@ io.on('connection', (socket) => {
         message: data.message
       });
     }
-    // console.log(usersJson);
-
-    var sent1 = false
-    // console.log(data)
     users.forEach(user => {
+      if (user.id === data.sender) {
+        user.socketids.forEach(socketid => {
+          if (socketid != socket.id) {
+            socket.broadcast.to(socketid).emit('message', {
+              sender: data.sender,
+              receiver: data.receiver,
+              FriendId: data.friendid,
+              message: data.message
+            })
+          }
+        })
+      }
       if (user.id === data.receiver) {
-        if (!sent1) {
-          socket.broadcast.to(user.socketid).emit('message', {
-            sender: data.sender,
-            receiver: data.receiver,
-            FriendId: data.friendid,
-            message: data.message
+        user.socketids.forEach(socketid => {
+            socket.broadcast.to(socketid).emit('message', {
+              sender: data.sender,
+              receiver: data.receiver,
+              FriendId: data.friendid,
+              message: data.message,
+              sendername:data.sendername
+            })
           })
-          sent1 = true
-        }
       }
     })
   })
+
+  socket.on('disconnect', function() {
+    // console.log('Got disconnect!', socket.id);
+    users.forEach((user, j) => {
+      
+      user.socketids.forEach((socketid,i) => {
+        if (socketid===socket.id) users[j].socketids.splice(i,1)
+      })
+      if (users[j].socketids.length === 0) users.splice(j,1)
+    })
+    // console.log(users);
+    
+ });
 });
 
 sequelize.sync({

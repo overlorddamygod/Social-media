@@ -32,6 +32,12 @@ export default {
     display: inline-block;
     clear: both;
     margin-bottom: 8px;
+    max-width: 60%;
+    white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;    
     padding: 13px 14px;
     vertical-align: top;
     border-radius: 5px;
@@ -61,10 +67,32 @@ export default {
         background-color: #eceff1;
         align-self: flex-end;
         animation-name: slideFromRight;
+        transition :slideFromRight 3s ease-in;
         &:before {
             right: -3px;
             background-color: #eceff1;
         }
     }
 }
+    @keyframes slideFromLeft {
+    0% {
+        margin-left: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+@keyframes slideFromRight {
+    0% {
+        margin-right: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
+}
+
 </style>
