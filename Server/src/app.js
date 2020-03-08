@@ -26,7 +26,36 @@ require('./routes')(app)
 let users = []
 
 io.on('connection', (socket) => {
+  // console.log(socket.handshake.query);
+  const {id,name,email} =  socket.handshake.query
   console.log("connected", socket.id)
+
+  var dupUser = false
+  var dupSocket = false
+  newUser = {
+    id,
+    name,
+    email
+  }
+  if (socket.handshake.query.id != null) {
+    users.forEach((user, i) => {
+      if (user.id === newUser.id) {
+        users[i].socketids.forEach(u => {
+          if (socket.id === u) dupSocket = true;
+        })
+        if (!dupSocket) {
+          users[i].socketids.push(socket.id)
+        }
+        dupUser = true
+      }
+    })
+    if (!dupUser) {
+      newUser.socketids=[]
+      newUser.socketids.push(socket.id)
+      users.push(newUser)        
+    }
+  }
+  // console.log(users);
 
   socket.on('chat-connection', data => {
     var duplicateUser = false

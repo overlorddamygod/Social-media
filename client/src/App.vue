@@ -37,9 +37,9 @@ export default {
     },
   mounted() {
     
-    this.$socket.client.emit('chat-connection', {
-          user: this.$store.state.auth.user
-    });
+    // this.$socket.client.emit('chat-connection', {
+    //       user: this.$store.state.auth.user
+    // });
   },
   sockets: {
     message(data) {

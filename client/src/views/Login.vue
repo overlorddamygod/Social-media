@@ -78,9 +78,12 @@ export default {
           email: this.email,
           password: this.password
         })
-
+        
         this.$store.dispatch('auth/setToken', response.data.token)
         this.$store.dispatch('auth/setUser', response.data.user)
+        this.$socket.client.emit('chat-connection', {
+          user: this.$store.state.auth.user
+        });
         this.$router.push({
           name: 'mypage'
         })

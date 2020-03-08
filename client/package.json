@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "alias" :"now alias https://social-media-ruddy.now.sh https://zumpy.now.sh/"
   },
   "dependencies": {
     "axios": "^0.19.1",
