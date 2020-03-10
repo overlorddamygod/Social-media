@@ -9,7 +9,7 @@
                     src="https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"
                   ></v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title class="headline">{{add(post.UserId)}}{{userinfo.name}}</v-list-item-title>
+        <v-list-item-title class="headline hover" @click="viewprofile">{{add(post.UserId)}}{{userinfo.name}}</v-list-item-title>
         <v-list-item-subtitle>{{format(post.createdAt)}}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -17,15 +17,15 @@
     <v-card-text>
     <h4>{{post.content}}  </h4>
       </v-card-text>
-    <v-img
+    <!-- <v-img
       :src="post.photoUrl"
       height="200"
       class="image"
-    ></v-img>
+    ></v-img> -->
 
 
     <v-card-actions>
-      <v-btn
+      <!-- <v-btn
         text
         color="deep-purple accent-4"
       >
@@ -36,7 +36,7 @@
         color="deep-purple accent-4"
       >
         Bookmark
-      </v-btn>
+      </v-btn> -->
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
@@ -84,6 +84,9 @@ export default {
       },
       format(time) {
           return timeago.format(time);
+      },
+      viewprofile() {        
+        this.$router.push({ name: 'profile',query: { id: this.post.UserId } })
       }
   }
 }
@@ -96,6 +99,11 @@ export default {
 .image {
   height:250px;
   
+}
+.hover:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.8;
 }
 @media screen and (max-width:768px){
   .card {

@@ -30,7 +30,7 @@
                   >
                 
                 </v-avatar>
-                <strong class="ml-2">{{user.name || LOL}}</strong>
+                <strong class="ml-2" @click="viewprofile">{{user.name || LOL}}</strong>
                             </v-btn>
                 <v-menu bottom left>
             <template v-slot:activator="{ on }">
@@ -86,6 +86,9 @@ export default {
       this.$router.push({
         name: 'home'
       })
+    },
+    viewprofile() {        
+      this.$router.push({ name: 'profile',query: { id: this.$store.state.auth.user.id } })
     }
   }
 }

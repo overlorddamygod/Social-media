@@ -5,7 +5,7 @@
   >
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-item-title class="headline mb-1">{{userin.name}}</v-list-item-title>
+        <v-list-item-title class="headline mb-1 hover" @click="viewprofile">{{userin.name}}</v-list-item-title>
         <v-list-item-subtitle>Bla Bla Bla</v-list-item-subtitle>
       </v-list-item-content>
 
@@ -20,7 +20,7 @@
 
     <v-card-actions>
       <v-btn text @click="addfriend">Add Friend</v-btn>
-      <v-btn text @click="viewprofile">View Profile</v-btn>
+      <!-- <v-btn text @click="viewprofile">View Profile</v-btn> -->
     </v-card-actions>
   </v-card>
 </template>
@@ -62,3 +62,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .hover:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.8;
+  }
+</style>
