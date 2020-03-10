@@ -82,6 +82,35 @@ io.on('connection', (socket) => {
 
   })
 
+  socket.on('friendadded', friend => {    
+    users.forEach(user => {      
+      if (user.id === friend.friend2) {        
+        user.socketids.forEach(socketid => {
+          socket.broadcast.to(socketid).emit('addedfriendnotification', friend)
+        })
+      }
+    })
+  })
+  socket.on('friendremoved', friend => {        
+    users.forEach(user => {   
+      if (user.id === friend.friend2) {        
+        user.socketids.forEach(socketid => {
+          socket.broadcast.to(socketid).emit('removefriendnotification', friend)
+        })
+      }
+    })
+  })
+  socket.on('friendadded', friend => {    
+    users.forEach(user => {      
+      if (user.id === friend.friend2) {        
+        user.socketids.forEach(socketid => {
+          socket.broadcast.to(socketid).emit('addedfriendnotification', friend)
+        })
+      }
+    })
+  })
+
+
   socket.on('sendmessage', async (data) => {
     // console.log(data)
     if (data.sender != null && data.receiver != null) {

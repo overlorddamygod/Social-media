@@ -6,7 +6,7 @@
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="headline mb-1">{{friend.friendname}}</v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+        <v-list-item-subtitle>Bla Bla Bla</v-list-item-subtitle>
       </v-list-item-content>
 {{a}}
       <v-list-item-avatar
@@ -57,8 +57,16 @@ export default {
 },
   methods: {
     async removefriend() {
-      try {
+      try {        
         FriendsService.removefriend(this.friendin.friendid)
+        const friend={
+          friend1:this.$store.state.auth.user.id,
+          friend1name:this.$store.state.auth.user.name,
+          friend2:this.friendin.friendid,
+          friend2name:this.friendin.name,
+        }
+        this.$socket.client.emit('friendremoved',friend)
+
         this.$emit('reloading',this.friend)
       }
       catch(err) {

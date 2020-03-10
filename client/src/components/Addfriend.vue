@@ -6,7 +6,7 @@
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="headline mb-1">{{userin.name}}</v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+        <v-list-item-subtitle>Bla Bla Bla</v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-avatar
@@ -49,6 +49,7 @@ export default {
           friend2:this.userin.id,
           friend2name:this.userin.name,
         }
+      this.$socket.client.emit('friendadded', friend)
         // console.log(a)
       await FriendsService.addfriend(friend)
       this.$emit('reloading',this.userin)

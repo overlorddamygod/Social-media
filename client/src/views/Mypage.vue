@@ -63,6 +63,11 @@ export default {
       this.getpost1();
     }, 60000); 
   },
+  created() {
+    this.$socket.client.emit('chat-connection', {
+          user: this.$store.state.auth.user
+    });
+  },
   data() {
     return {
       user: this.$store.state.auth.user,
