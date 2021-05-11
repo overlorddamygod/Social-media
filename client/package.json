@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.19.1",
     "core-js": "^3.4.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "sass": "^1.24.5",
     "sass-loader": "^8.0.2",
     "sleep": "^6.1.0",
